@@ -1,15 +1,25 @@
 <app-header></app-header>
 
 <ion-content>
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-subtitle>Date Filled</ion-card-subtitle>
-      <ion-card-title>Medication Name</ion-card-title>
-    </ion-card-header>
-  
+  <ion-card *ngIf="!(prescriptions$ | async)?.length">
     <ion-card-content>
-      <div>Instructions, take this onece a day for 3 months</div>
-      <div>45%</div>
+      Doesn't look like you have any prescriptions. Do you need to <a routerLink="/add-prescription" routerDirection="forward">add one</a>?
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngFor="let prescription of (prescriptions$ | async)" color="light">
+    <ion-card-header>
+      <ion-card-subtitle>{{ prescription.begdate | date:'shortDate' }}</ion-card-subtitle>
+      <ion-card-title>{{ prescription.medicationId }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item color="light">Dosage: {{ prescription.dosage }}</ion-item>
+      <ion-item color="light">Frequency: every {{ prescription.frequency }} {{ prescription.frequencyUnit }}</ion-item>
+      <ion-item color="light">{{ prescription.adherence | percent }}</ion-item>
+      <ion-item color="light" lines="none">
+        <ion-label> Have you taken this today?</ion-label>
+        <ion-checkbox slot="start" color="success" [(ngModel)]="prescription.checked" (ionChange)="recordAdherence(prescription)"></ion-checkbox>
+      </ion-item>
     </ion-card-content>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -17,9 +27,4 @@
       <ion-icon name="add" routerLink="/add-prescription" routerDirection="forward"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-      <ion-fab-button color="secondary">
-        <ion-icon name="ice-cream" (click)="pushNotificationTest()"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
 </ion-content>

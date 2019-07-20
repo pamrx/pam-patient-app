@@ -4,6 +4,10 @@
     "outDir": "../out-tsc/app",
     "types": []
   },
+  "include": [
+    "../src/**/*",
+    "../node_modules/json-typescript-mapper/libs/utils.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

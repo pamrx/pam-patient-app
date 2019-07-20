@@ -5,13 +5,14 @@
   <ion-card color="light">
     <ion-item color="light"> 
       <ion-label position="floating">Username</ion-label>
-      <ion-input [(ngModel)]="user.username"></ion-input>
+      <ion-input></ion-input>
     </ion-item>
 
     <ion-item color="light">
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <ion-button expand="block" (click)="login()">Login</ion-button>
+    <app-button-spinner (click)="login()" [showSpinner]="showSpinner" text="Login" expand="block"></app-button-spinner>
+    <div class="error">{{ error }}</div>
   </ion-card>
 </ion-content>

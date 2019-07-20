@@ -1,22 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Medication } from './models/medication.model';
+import { MedicationService } from './services/medication.service';
 
 @Component({
   selector: 'app-add-prescription',
   templateUrl: './add-prescription.page.html',
-  styleUrls: ['./add-prescription.page.scss'],
+  styleUrls: ['./add-prescription.page.scss']
 })
-export class AddPrescriptionPage {
+export class AddPrescriptionPage implements OnInit {
 
   public prescription: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  public medications$: Observable<Medication[]>;
+  private searchTerm: string;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private medicationService: MedicationService) {
     this.prescription = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: [''],
+      name: [''],
+      medicationId: ['', Validators.required],
+      dosage: [''],
+      frequency: [''],
+      notes: ['']
     });
   }
-  logForm() {
+
+  ngOnInit(): void {
+    this.prescription.valueChanges.subscribe((changes) => {
+      console.log(changes);
+      if (this.searchTerm !== changes.name) {
+        this.searchTerm = changes.name;
+        this.search();
+      }
+    });
+  }
+
+  private search(): void {
+    this.medications$ = this.medicationService.getMedications(this.searchTerm);
+  }
+
+  public submit() {
     console.log(this.prescription.value);
   }
 }
