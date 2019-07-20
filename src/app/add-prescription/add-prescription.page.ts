@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-prescription',
   templateUrl: './add-prescription.page.html',
   styleUrls: ['./add-prescription.page.scss'],
 })
-export class AddPrescriptionPage implements OnInit {
+export class AddPrescriptionPage {
 
-  constructor() { }
+  public prescription: FormGroup;
 
-  ngOnInit() {
+  constructor(private formBuilder: FormBuilder) {
+    this.prescription = this.formBuilder.group({
+      title: ['', Validators.required],
+      description: [''],
+    });
   }
-
+  logForm() {
+    console.log(this.prescription.value);
+  }
 }
