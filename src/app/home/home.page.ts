@@ -8,7 +8,8 @@ import { Push, PushObject, PushOptions } from '@ionic-native/push/ngx';
 })
 export class HomePage {
 
-  constructor(private push: Push) { }
+  constructor(
+    private push: Push) { }
 
   public pushNotificationTest(): void {
     this.push.hasPermission()
