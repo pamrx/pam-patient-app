@@ -1,0 +1,7 @@
+{
+  "name": "healthcare-hackathon",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
