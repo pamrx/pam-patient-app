@@ -1,6 +1,7 @@
 import { BaseModel } from '../../shared/models/base-model.abstract';
 import { JsonProperty } from 'json-typescript-mapper';
 import { PrescriptionInterval } from './interval.enum';
+import { Units } from './units.enum';
 
 export class Prescription extends BaseModel<Prescription> {
     @JsonProperty('id')
@@ -31,6 +32,10 @@ export class Prescription extends BaseModel<Prescription> {
     perRefill: string;
     @JsonProperty('filled_date')
     filledDate: string;
+    @JsonProperty('adherence')
+    adherence: number;
+    @JsonProperty('timesTakenToday')
+    timesTakenToday: number;
 
     checked: boolean;
 
@@ -54,11 +59,6 @@ export class Prescription extends BaseModel<Prescription> {
         this.build(properties);
     }
 
-    get adherence(): number {
-        return 0.67;
-        // return (this.postitiveResponse / (this.postitiveResponse + this.negativeResponse));
-    }
-
     get intervalDisplay(): string {
         switch (this.interval) {
             case PrescriptionInterval.AS_NEEDED:
@@ -72,8 +72,52 @@ export class Prescription extends BaseModel<Prescription> {
         }
     }
 
+    get unitsDisplay(): string {
+        switch (this.unit) {
+            case Units.MCG:
+                return 'Micrograms (&mu;g)';
+            case Units.MG:
+                return 'Milligrams (mg)';
+            case Units.G:
+                return 'Grams (g)';
+            default:
+                return null;
+        }
+    }
+
+    get displayCheckbox(): boolean {
+        switch (this.interval) {
+            case PrescriptionInterval.AS_NEEDED:
+                return this.timesTakenToday === 0;
+            case PrescriptionInterval.DAILY:
+                return this.timesTakenToday === 0;
+            case PrescriptionInterval.TWICE_DAILY:
+                return this.timesTakenToday <= 1;
+            default:
+                return null;
+        }
+    }
+
+    get textQuestion(): string {
+        switch (this.interval) {
+            case PrescriptionInterval.AS_NEEDED:
+                return 'Did you decide you needed to take this today?';
+            case PrescriptionInterval.DAILY:
+                return 'Have you taken this today?';
+            case PrescriptionInterval.TWICE_DAILY:
+                return this.timesTakenToday === 0 ? 'Have you taken your first dose today?' : this.timesTakenToday === 1 ? 'Have you taken your second dose today?' : null;;
+            default:
+                return null;
+        }
+    }
+
     get startDateDisplay(): string {
         const dateArray = this.startDate.split('-');
+        return `${dateArray[1]}/${dateArray[2]}/${dateArray[0]}`;
+    }
+
+    get filledDateDisplay(): string {
+        const dateArray = this.filledDate.split('-');
         return `${dateArray[1]}/${dateArray[2]}/${dateArray[0]}`;
     }
 }

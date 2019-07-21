@@ -1,23 +1,37 @@
 <app-header title="Medications"></app-header>
 
 <ion-content>
-  <ion-card *ngIf="!(prescriptions$ | async)?.length">
+  <ion-card *ngIf="(prescriptions$| async) && !(prescriptions$ | async)?.length">
     <ion-card-content>
       Doesn't look like you have any prescriptions. Do you need to <a routerLink="/add-prescription" routerDirection="forward">add one</a>?
     </ion-card-content>
   </ion-card>
+  <ion-toolbar *ngIf="patient && patient?.adherence" class="adherence-toolbar" [color]="patient.adherence >= 85 ? 'success' : 'danger'">
+    <div *ngIf="patient.adherence >= 85; else havingTrouble">
+      <ion-icon name="star"></ion-icon>
+      Great Job! <br> You've remembered to take your medications {{ patient.adherence }}% of the time.
+    </div>
+    <ng-template #havingTrouble>
+      <div>
+          Having trouble? Try turning on reminders. <br> You've remembered to take your medications {{ patient.adherence }}% of the time.
+      </div>
+    </ng-template>
+  </ion-toolbar>
   <ion-card *ngFor="let prescription of (prescriptions$ | async)" color="light">
     <ion-card-header>
-      <ion-card-subtitle><span *ngIf="prescription.filledDate">Last Filled: {{ prescription.filledDate }}</span>  Start Date: {{ prescription.startDateDisplay }}</ion-card-subtitle>
+      <ion-card-subtitle>
+        <span *ngIf="prescription.filledDate">Last Filled: {{ prescription.filledDateDisplay }}</span>
+        <br *ngIf="prescription.filledDate">
+        <span>Start Date: {{ prescription.startDateDisplay }}</span></ion-card-subtitle>
       <ion-card-title>{{ prescription.drug }}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content class="prescription-content">
-      <ion-item color="light">Dosage: {{ prescription.dosage }}</ion-item>
+      <ion-item color="light">Dosage: {{ prescription.dosage }} Units: {{ prescription.unitsDisplay }}</ion-item>
       <ion-item color="light">Interval: {{ prescription.intervalDisplay }}</ion-item>
       <ion-item color="light">{{ prescription.adherence }}%</ion-item>
       <ion-item color="light" lines="none">
-        <ion-label> Have you taken this today?</ion-label>
+        <ion-label>{{ prescription.questionText }}</ion-label>
         <ion-checkbox slot="start" color="success" [(ngModel)]="prescription.checked" (ionChange)="recordAdherence(prescription)"></ion-checkbox>
       </ion-item>
     </ion-card-content>

@@ -15,7 +15,7 @@ import { StorageService } from '../shared/services/storage.service';
 export class HomePage extends UnsubscribeComponent implements OnInit {
 
   public prescriptions$: Observable<Prescription[]>;
-  private patientId: string;
+  private patient: Patient;
 
   constructor(
     private prescriptionService: PrescriptionService,
@@ -25,13 +25,13 @@ export class HomePage extends UnsubscribeComponent implements OnInit {
 
   ngOnInit(): void {
     this.storageService.get('user').then((user) => {
-      this.patientId = (JSON.parse(user) as Patient).pid;
-      this.prescriptions$ = this.prescriptionService.getPrescriptions(this.patientId);
+      this.patient = JSON.parse(user) as Patient;
+      this.prescriptions$ = this.prescriptionService.getPrescriptions(this.patient.pid);
     });
   }
 
   public recordAdherence(prescription: Prescription): void {
-    this.prescriptionService.recordAdherenceOnDemand(this.patientId, prescription.id, prescription.checked ? 0 : 1)
+    this.prescriptionService.recordAdherenceOnDemand(this.patient.pid, prescription.id, prescription.checked ? 0 : 1)
       .pipe(takeUntil(this.unsubscriber))
       .subscribe(() => console.log('updated'));
   }
