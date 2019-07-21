@@ -36,12 +36,12 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
       searchTerm: [''],
       drug: ['', Validators.required],
       begdate: ['', Validators.required],
-      form: ['', Validators.required],
+      form: ['2', Validators.required],
       dosage: ['', Validators.required],
       size: ['', Validators.required],
-      unit: ['', Validators.required],
+      unit: ['1', Validators.required],
       route: ['', Validators.required],
-      interval: ['', Validators.required],
+      interval: ['9', Validators.required],
       refills: ['', Validators.required],
       perRefill: ['', Validators.required]
     });

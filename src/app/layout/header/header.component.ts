@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, PopoverController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';
+import { MoreMenuComponent } from '../components/more-menu/more-menu.component';
 
 @Component({
   selector: 'app-header',
@@ -20,15 +21,20 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private navController: NavController,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private popoverController: PopoverController) { }
 
   ngOnInit() {
     this.loggedIn$ = this.authService.getLoginStatus();
   }
 
-  public logout(): void {
-    this.authService.logout();
-    this.navController.navigateRoot('login');
+  public showMenu(): void {
+    this.popoverController.create({
+      component: MoreMenuComponent,
+      translucent: true
+    }).then((popover) => {
+      popover.present();
+    });
   }
 
   public back(): void {

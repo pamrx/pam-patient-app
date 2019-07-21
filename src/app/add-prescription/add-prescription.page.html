@@ -19,46 +19,63 @@
         <ion-label position="floating">Begin Date</ion-label>
         <ion-datetime displayFormat="MM/DD/YYYY" min="1900-01-01" formControlName="begdate"></ion-datetime>
       </ion-item>
-      <ion-item color="light">
-        <ion-label position="floating">Form</ion-label>
-        <ion-select formControlName="form" okText="Select" cancelText="Cancel">
-          <ion-select-option value="2">Tablet</ion-select-option>
-          <ion-select-option value="12">Puff</ion-select-option>
-          <ion-select-option value="10">Cream</ion-select-option>
-          <ion-select-option value="7">Units</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item color="light">
-        <ion-label position="floating">Dosage</ion-label>
-        <ion-input type="number" formControlName="dosage"></ion-input>
-      </ion-item>
-      <ion-item color="light">
-        <ion-label position="floating">Size</ion-label>
-        <ion-input type="number" formControlName="size"></ion-input>
-      </ion-item>
-      <ion-item color="light">
-        <ion-label position="floating">Unit</ion-label>
-        <ion-select formControlName="unit" okText="Select" cancelText="Cancel">
-            <ion-select-option value="1">Milligrams (mg)</ion-select-option>
-            <ion-select-option value="7">Micrograms (&mu;g)</ion-select-option>
-            <ion-select-option value="8">Grams (g)</ion-select-option>
-          </ion-select>
-      </ion-item>
+      <ion-grid>
+        <ion-col>
+          <ion-row>
+            <ion-col size="5">
+              <ion-item color="light">
+                <ion-label position="floating">Dosage</ion-label>
+                <ion-input type="number" formControlName="dosage"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="7">
+              <ion-item color="light">
+                <ion-label position="floating">Unit</ion-label>
+                <ion-select formControlName="unit" okText="Select" cancelText="Cancel">
+                  <ion-select-option value="1">Milligrams (mg)</ion-select-option>
+                  <ion-select-option value="7">Micrograms (&mu;g)</ion-select-option>
+                  <ion-select-option value="8">Grams (g)</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+
+          </ion-row>
+          <ion-row>
+            <ion-col size="5">
+                <ion-item color="light">
+                    <ion-label position="floating">Doses</ion-label>
+                    <ion-input type="number" formControlName="size"></ion-input>
+                  </ion-item>
+            </ion-col>
+            <ion-col size="7">
+                <ion-item color="light">
+                    <ion-label position="floating">Form</ion-label>
+                    <ion-select formControlName="form" okText="Select" cancelText="Cancel">
+                      <ion-select-option value="2">Tablet</ion-select-option>
+                      <ion-select-option value="12">Puff</ion-select-option>
+                      <ion-select-option value="10">Cream</ion-select-option>
+                      <ion-select-option value="7">Units</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-grid>
       <ion-item color="light">
         <ion-label position="floating">Route</ion-label>
         <ion-select formControlName="route" okText="Select" cancelText="Cancel">
-            <ion-select-option value="1">Oral</ion-select-option>
-            <ion-select-option value="4">To Affected Area</ion-select-option>
-            <ion-select-option value="9">Sub Q (injection)</ion-select-option>
-          </ion-select>
+          <ion-select-option value="1">Oral</ion-select-option>
+          <ion-select-option value="4">To Affected Area</ion-select-option>
+          <ion-select-option value="9">Sub Q (injection)</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item color="light">
         <ion-label position="floating">Interval</ion-label>
         <ion-select formControlName="interval" okText="Select" cancelText="Cancel">
-            <ion-select-option value="9">Daily</ion-select-option>
-            <ion-select-option value="1">Twice Daily</ion-select-option>
-            <ion-select-option value="17">As Needed</ion-select-option>
-          </ion-select>
+          <ion-select-option value="9">Daily</ion-select-option>
+          <ion-select-option value="1">Twice Daily</ion-select-option>
+          <ion-select-option value="17">As Needed</ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item color="light">
         <ion-label position="floating">Refills</ion-label>

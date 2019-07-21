@@ -10,8 +10,8 @@
     </ion-title>
 
     <ion-buttons slot="primary">
-      <ion-button *ngIf="(loggedIn$ | async)" (click)="logout()">
-        <ion-icon name="log-out"></ion-icon>
+      <ion-button *ngIf="(loggedIn$ | async)" (click)="showMenu()">
+        <ion-icon name="more"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
