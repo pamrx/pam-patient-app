@@ -5,7 +5,9 @@
         <ion-item>
             <ion-label>Enable Notifications</ion-label>
             <ion-checkbox checked="notificationsEnabled" onclick="toggleNotifications()"></ion-checkbox>
-            <ion-list *ngIf="notificationsEnabled">
+        </ion-item>
+        <ion-item *ngIf="notificationsEnabled">
+            <ion-list>
                 <ion-item>
                     <ion-label>Push Notifications</ion-label>
                     <ion-checkbox checked="true"></ion-checkbox>
@@ -24,8 +26,10 @@
                 </ion-item>
             </ion-list>
         </ion-item>
-        <ion-item>
+        <ion-item *ngIf="notificationsEnabled">
             <ion-label>Notification Time Window</ion-label>
+        </ion-item>
+        <ion-item *ngIf="notificationsEnabled">
             <ion-item>
                 <ion-label>From</ion-label>
                 <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
