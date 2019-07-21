@@ -1,51 +1,49 @@
 <app-header title="Settings" [backButton]="true"></app-header>
 
 <ion-content>
-    <ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label>Enable Notifications</ion-label>
+      <ion-checkbox checked="notificationsEnabled" (click)="toggleNotifications()"></ion-checkbox>
+    </ion-item>
+    <ion-item *ngIf="notificationsEnabled">
+      <ion-list>
         <ion-item>
-            <ion-label>Enable Notifications</ion-label>
-            <ion-checkbox checked="notificationsEnabled" (click)="toggleNotifications()"></ion-checkbox>
+          <ion-label>Push Notifications</ion-label>
+          <ion-checkbox checked="true"></ion-checkbox>
         </ion-item>
-        <ion-item *ngIf="notificationsEnabled">
-            <ion-list>
-                <ion-item>
-                    <ion-label>Push Notifications</ion-label>
-                    <ion-checkbox checked="true"></ion-checkbox>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Email</ion-label>
-                    <ion-checkbox checked="false"></ion-checkbox>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Text</ion-label>
-                    <ion-checkbox checked="false"></ion-checkbox>
-                </ion-item>
-                <ion-item>
-                    <ion-label>Phone Call</ion-label>
-                    <ion-checkbox checked="false"></ion-checkbox>
-                </ion-item>
-            </ion-list>
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-checkbox checked="false"></ion-checkbox>
         </ion-item>
-        <ion-item *ngIf="notificationsEnabled">
-            <ion-label>Notification Time Window</ion-label>
+        <ion-item>
+          <ion-label>Text</ion-label>
+          <ion-checkbox checked="false"></ion-checkbox>
         </ion-item>
-        <ion-item *ngIf="notificationsEnabled">
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-item>
-                            <ion-label>From</ion-label>
-                            <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="6">
-                        <ion-item size="6">
-                            <ion-label>To</ion-label>
-                            <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
+        <ion-item>
+          <ion-label>Phone Call</ion-label>
+          <ion-checkbox checked="false"></ion-checkbox>
         </ion-item>
-    </ion-list>
+      </ion-list>
+    </ion-item>
+    <ion-item *ngIf="notificationsEnabled">
+      <ion-label>Notification Time Window</ion-label>
+    </ion-item>
+    <ion-grid *ngIf="notificationsEnabled">
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label>From</ion-label>
+            <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item size="6">
+            <ion-label>To</ion-label>
+            <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
 </ion-content>
