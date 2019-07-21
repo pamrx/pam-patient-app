@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
+  notificationsEnabled: boolean
 
   constructor() { }
 
   ngOnInit() {
+    this.notificationsEnabled = true
+  }
+
+  toggleNotifications() {
+    this.notificationsEnabled = !this.notificationsEnabled
   }
 
 }
