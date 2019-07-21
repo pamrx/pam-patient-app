@@ -1,8 +1,6 @@
 <ion-list>
     <ion-list-header>Options</ion-list-header>
-    <ion-item button>Learn Ionic</ion-item>
-    <ion-item button>Documentation</ion-item>
-    <ion-item button (click)="goToSettings()">Settings</ion-item>
-    <ion-item button (click)="logout()">Logout</ion-item>
+    <ion-item button (click)="goToSettings()"><ion-icon name="settings"></ion-icon>  Settings</ion-item>
+    <ion-item button (click)="logout()"><ion-icon name="log-out"></ion-icon>  Logout</ion-item>
   </ion-list>
   <ion-button expand="block" (click)="dismiss()">Close</ion-button>

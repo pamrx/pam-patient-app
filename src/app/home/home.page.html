@@ -29,9 +29,9 @@
     <ion-card-content class="prescription-content">
       <ion-item color="light">Dosage: {{ prescription.dosage }} Units: {{ prescription.unitsDisplay }}</ion-item>
       <ion-item color="light">Interval: {{ prescription.intervalDisplay }}</ion-item>
-      <ion-item color="light">{{ prescription.adherence }}%</ion-item>
-      <ion-item color="light" lines="none">
-        <ion-label>{{ prescription.questionText }}</ion-label>
+      <ion-item color="light">{{ prescription.adherence }} % Adherence</ion-item>
+      <ion-item color="light" lines="none" *ngIf="prescription.displayCheckbox">
+        <ion-label>{{ prescription.textQuestion }}</ion-label>
         <ion-checkbox slot="start" color="success" [(ngModel)]="prescription.checked" (ionChange)="recordAdherence(prescription)"></ion-checkbox>
       </ion-item>
     </ion-card-content>

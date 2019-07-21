@@ -56,6 +56,8 @@ export class Prescription extends BaseModel<Prescription> {
         this.perRefill = undefined;
         this.filledDate = undefined;
         this.checked = undefined;
+        this.adherence = undefined;
+        this.timesTakenToday = undefined;
         this.build(properties);
     }
 
@@ -101,11 +103,12 @@ export class Prescription extends BaseModel<Prescription> {
     get textQuestion(): string {
         switch (this.interval) {
             case PrescriptionInterval.AS_NEEDED:
-                return 'Did you decide you needed to take this today?';
+                return 'Have you taken this today?';
             case PrescriptionInterval.DAILY:
                 return 'Have you taken this today?';
             case PrescriptionInterval.TWICE_DAILY:
-                return this.timesTakenToday === 0 ? 'Have you taken your first dose today?' : this.timesTakenToday === 1 ? 'Have you taken your second dose today?' : null;;
+                return this.timesTakenToday === 0 ? 'Did you taken your first dose?' :
+                    this.timesTakenToday === 1 ? 'Did you taken your second dose?' : null;
             default:
                 return null;
         }

@@ -28,7 +28,7 @@ export class MoreMenuComponent implements OnInit {
 
   public goToSettings(): void {
     this.dismiss();
-    this.navController.navigateRoot('settings');
+    this.navController.navigateForward('settings');
   }
 
 }
