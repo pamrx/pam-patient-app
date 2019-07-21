@@ -29,6 +29,8 @@ export class Prescription extends BaseModel<Prescription> {
     refills: string;
     @JsonProperty('per_refill')
     perRefill: string;
+    @JsonProperty('filled_date')
+    filledDate: string;
 
     checked: boolean;
 
@@ -46,6 +48,8 @@ export class Prescription extends BaseModel<Prescription> {
         this.route = undefined;
         this.interval = undefined;
         this.refills = undefined;
+        this.perRefill = undefined;
+        this.filledDate = undefined;
         this.checked = undefined;
         this.build(properties);
     }

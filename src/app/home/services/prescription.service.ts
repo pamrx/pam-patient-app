@@ -29,7 +29,7 @@ export class PrescriptionService {
   }
 
   public recordAdherence(notificationId: string, response: number): Observable<void> {
-    return this.http.post<void>(encodeURI(`${environment.baseUrl}/notify/${notificationId}`), response);
+    return this.http.post<void>(encodeURI(`${environment.baseUrl}/notifications/${notificationId}`), response);
   }
 
   public recordAdherenceOnDemand(patientId: string, prescriptionId: string, response: number): Observable<void> {

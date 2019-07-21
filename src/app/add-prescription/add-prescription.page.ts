@@ -9,6 +9,7 @@ import { StorageService } from '../shared/services/storage.service';
 import { Patient } from '../auth/models/patient.model';
 import { UnsubscribeComponent } from '../shared/components/unsubscribe.abstract';
 import { takeUntil } from 'rxjs/operators';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-prescription',
@@ -20,7 +21,7 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
   public prescriptionForm: FormGroup;
 
   public medications$: Observable<Medication[]>;
-  public showList = false;
+  showList = false;
   private searchTerm: string;
   private selectedMedicine: string;
 
@@ -28,21 +29,21 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
     private formBuilder: FormBuilder,
     private medicationService: MedicationService,
     private prescriptionService: PrescriptionService,
-    private storageService: StorageService) {
+    private storageService: StorageService,
+    private navController: NavController) {
     super();
     this.prescriptionForm = this.formBuilder.group({
       searchTerm: [''],
       drug: ['', Validators.required],
-      begdate: [''],
-      form: [''],
-      dosage: [''],
-      quantity: [''],
-      size: [''],
-      unit: [''],
-      route: [''],
-      interval: [''],
-      refills: [''],
-      perRefill: ['']
+      begdate: ['', Validators.required],
+      form: ['', Validators.required],
+      dosage: ['', Validators.required],
+      size: ['', Validators.required],
+      unit: ['', Validators.required],
+      route: ['', Validators.required],
+      interval: ['', Validators.required],
+      refills: ['', Validators.required],
+      perRefill: ['', Validators.required]
     });
   }
 
@@ -77,7 +78,7 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
         startDate: this.getDate(this.prescriptionForm.value.begdate),
         form: this.prescriptionForm.value.form.toString(),
         dosage: this.prescriptionForm.value.dosage.toString(),
-        quantity: this.prescriptionForm.value.quantity.toString(),
+        quantity: this.prescriptionForm.value.perRefill.toString(),
         size: this.prescriptionForm.value.size.toString(),
         unit: this.prescriptionForm.value.unit.toString(),
         route: this.prescriptionForm.value.route.toString(),
@@ -90,7 +91,7 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
       this.prescriptionService.createPrescription(user.pid, prescription)
         .pipe(takeUntil(this.unsubscriber))
         .subscribe(() => {
-          console.log('done');
+          this.navController.navigateRoot('home');
         });
 
     });
@@ -98,6 +99,11 @@ export class AddPrescriptionPage extends UnsubscribeComponent implements OnInit 
 
   private getDate(stringDate: string): string {
     const date = new Date(stringDate);
-    return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    return `${date.getFullYear()}-${this.getTwoDigit(date.getMonth() + 1)}-${this.getTwoDigit(date.getDate())}`;
+  }
+
+  private getTwoDigit(value: number): string {
+    const stringVal = `00${value}`;
+    return stringVal.substring(stringVal.length - 2, stringVal.length);
   }
 }

@@ -94,7 +94,7 @@ export class PushService {
       // do something with the notification data
 
       pushObject.finish(data.additionalData.notId).then(() => {
-        console.log('accept callback finished');
+        this.recordAdherence(0, data.additionalData.notificationId);
       }, () => {
         console.log('accept callback failed');
       });
@@ -104,7 +104,7 @@ export class PushService {
       // do something with the notification data
 
       pushObject.finish(data.additionalData.notId).then(() => {
-        console.log('no callback finished');
+        this.recordAdherence(1, data.additionalData.notificationId);
       }, () => {
         console.log('no callback failed');
       });
@@ -113,7 +113,7 @@ export class PushService {
       // do something with the notification data
 
       pushObject.finish(data.additionalData.notId).then(() => {
-        console.log('remind callback finished');
+        this.recordAdherence(2, data.additionalData.notificationId);
       }, () => {
         console.log('remind callback failed');
       });
@@ -126,10 +126,10 @@ export class PushService {
       message: data.message,
       buttons: [
         {
-          text: 'Yes',
+          text: 'Ask Me Later',
           handler: () => {
-            this.recordAdherence(0, data.additionalData.notificationId);
-            console.log('Yes clicked');
+            this.recordAdherence(2, data.additionalData.notificationId);
+            console.log('Remind clicked');
           }
         },
         {
@@ -140,12 +140,12 @@ export class PushService {
           }
         },
         {
-          text: 'Ask Me Later',
+          text: 'Yes',
           handler: () => {
-            this.recordAdherence(2, data.additionalData.notificationId);
-            console.log('Remind clicked');
+            this.recordAdherence(0, data.additionalData.notificationId);
+            console.log('Yes clicked');
           }
-        }
+        },
       ]
     };
     this.alertController.create(alertOptions).then((alert) => alert.present());
