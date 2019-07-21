@@ -1,17 +1,23 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="secondary">
       <ion-button *ngIf="backButton" (click)="back()">
         <ion-icon name="arrow-round-back"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>
-      {{title}}
+      <img src="../../../assets/logo.png" />
     </ion-title>
+
     <ion-buttons slot="primary">
       <ion-button *ngIf="(loggedIn$ | async)" (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>
+      {{title}}
+    </ion-title>
   </ion-toolbar>
 </ion-header>

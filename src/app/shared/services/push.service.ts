@@ -4,6 +4,9 @@ import { AlertController } from '@ionic/angular';
 import { AlertOptions } from '@ionic/core';
 import { PrescriptionService } from '../../home/services/prescription.service';
 import { Patient } from 'src/app/auth/models/patient.model';
+import { StorageService } from './storage.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,9 @@ export class PushService {
   constructor(
     private push: Push,
     private alertController: AlertController,
-    private prescriptionService: PrescriptionService) { }
+    private prescriptionService: PrescriptionService,
+    private storageService: StorageService,
+    private http: HttpClient) { }
 
   public registerPush(): void {
     this.push.hasPermission()
@@ -65,7 +70,9 @@ export class PushService {
     const pushObject: PushObject = this.push.init(options);
 
     pushObject.on('registration').subscribe(data => {
-      // send data.registrationId to push service
+      console.log('registered!');
+      console.log(data);
+      this.registerDevice(data);
     });
 
     pushObject.on('notification').subscribe((data: EventResponse) => {
@@ -145,14 +152,32 @@ export class PushService {
   }
 
   private recordAdherence(taken: boolean): void {
-    const rawUser = sessionStorage.getItem('user');
-    if (rawUser) {
-      const user = JSON.parse(rawUser) as Patient;
-      this.prescriptionService.recordAdherence(user.id, 'medicationId', taken).subscribe(() => {
-        console.log('success');
-      });
-    } else {
-      console.log('unable to determine user to record adherence');
-    }
+    this.storageService.get('user').then((rawUser) => {
+      if (rawUser) {
+        const user = JSON.parse(rawUser) as Patient;
+        this.prescriptionService.recordAdherence(user.pid, 'medicationId', taken).subscribe(() => {
+          console.log('success');
+        });
+      } else {
+        console.log('unable to determine user to record adherence');
+      }
+    });
+  }
+
+  private registerDevice(data): void {
+    console.log('inside register device');
+    this.storageService.get('user').then((rawUser) => {
+      console.log(rawUser);
+      if (rawUser) {
+        const user = JSON.parse(rawUser) as Patient;
+        this.http.post<void>(`${environment.baseUrl}/patients/${user.pid}/notificationToken`, data.registrationId)
+          .subscribe((response) => {
+            console.log('inside post');
+            console.log(response);
+          });
+      } else {
+        console.log('unable to determine user to record adherence');
+      }
+    }).catch((error) => console.log(error));
   }
 }

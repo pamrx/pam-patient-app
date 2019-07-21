@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, share } from 'rxjs/operators';
 import { Medication } from '../models/medication.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -21,6 +21,7 @@ export class MedicationService {
       catchError((error) => {
         console.log(error);
         return throwError(error);
-      }));
+      }),
+      share());
   }
 }

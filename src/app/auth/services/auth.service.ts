@@ -6,6 +6,7 @@ import { Patient } from '../models/patient.model';
 import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { deserialize } from 'json-typescript-mapper';
+import { StorageService } from 'src/app/shared/services/storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +17,20 @@ export class AuthService {
 
   constructor(
     private pushService: PushService,
-    private http: HttpClient) {
-    this.loginStatus.next(!!sessionStorage.getItem('user'));
+    private http: HttpClient,
+    private storageService: StorageService) {
+    this.storageService.get('user').then((user) => this.loginStatus.next(!!user));
   }
 
   public getLoginStatus(): Observable<boolean> {
     return this.loginStatus;
   }
 
-  public login(): Observable<void> {
-    return this.http.get<Patient>(`${environment.baseUrl}/patients/5d32bad78097686ebb39121f`)
+  public login(username: string): Observable<void> {
+    return this.http.get<Patient>(`${environment.baseUrl}/patients/${username}/login`)
       .pipe(map((patient) => {
         this.pushService.registerPush();
-        sessionStorage.setItem('user', JSON.stringify(deserialize(Patient, patient)));
+        this.storageService.set('user', JSON.stringify(deserialize(Patient, patient)));
         this.loginStatus.next(true);
       }),
         catchError((error) => throwError(error)));
@@ -36,7 +38,8 @@ export class AuthService {
   }
 
   public logout(): void {
-    sessionStorage.removeItem('user');
-    this.loginStatus.next(false);
+    this.storageService.remove('user').then(() => {
+      this.loginStatus.next(false);
+    });
   }
 }

@@ -1,18 +1,21 @@
-<app-header></app-header>
+<app-header title="Login"></app-header>
 
 <ion-content>
 
   <ion-card color="light">
-    <ion-item color="light"> 
-      <ion-label position="floating">Username</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
+    <form [formGroup]="loginForm">
+      <ion-item color="light">
+        <ion-label position="floating">Username</ion-label>
+        <ion-input formControlName="username"></ion-input>
+      </ion-item>
 
-    <ion-item color="light">
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
-    <app-button-spinner (click)="login()" [showSpinner]="showSpinner" text="Login" expand="block"></app-button-spinner>
-    <div class="error">{{ error }}</div>
+      <ion-item color="light">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <app-button-spinner (click)="login()" [showSpinner]="showSpinner" [disable]="!loginForm.valid" text="Login" expand="block">
+      </app-button-spinner>
+      <div class="error">{{ error }}</div>
+    </form>
   </ion-card>
 </ion-content>

@@ -1,29 +1,29 @@
-<app-header [backButton]="true"></app-header>
+<app-header [backButton]="true" title="Add a Medication"></app-header>
 
 <ion-content>
   <ion-card color="light">
     <form [formGroup]="prescription" (ngSubmit)="submit()">
-      <ion-item>
+      <ion-item color="light">
         <ion-label position="floating">Medication</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
-      <ion-list *ngIf="prescription.value.name">
-          <ion-radio-group formControlName="medicationId">
-            <ion-item *ngFor="let medication of (medications$ | async)">
-              <ion-label>{{ medication.title }}</ion-label>
-              <ion-radio slot="start" [value]="medication.id"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
-      <ion-item>
+      <ion-list *ngIf="prescription.value.name" color="light">
+        <ion-radio-group formControlName="medicationId">
+          <ion-item *ngFor="let medication of (medications$ | async)">
+            <ion-label>{{ medication.title }}</ion-label>
+            <ion-radio slot="start" [value]="medication.id"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+      <ion-item color="light">
         <ion-label position="floating">Dosage</ion-label>
         <ion-input type="text" formControlName="dosage"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item color="light">
         <ion-label position="floating">Frequency</ion-label>
         <ion-input type="text" formControlName="frequency"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item color="light">
         <ion-label position="floating">Begin Date</ion-label>
         <ion-input type="date" formControlName="notes"></ion-input>
       </ion-item>

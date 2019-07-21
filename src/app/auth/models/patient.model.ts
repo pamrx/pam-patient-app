@@ -3,7 +3,7 @@ import { JsonProperty } from 'json-typescript-mapper';
 import { Prescription } from './prescription.model';
 
 export class Patient extends BaseModel<Patient> {
-    id: string;
+    pid: string;
     title: string;
     fname: string;
     mname: string;
@@ -28,7 +28,7 @@ export class Patient extends BaseModel<Patient> {
 
     constructor(properties?: Partial<Patient>) {
         super();
-        this.id = undefined;
+        this.pid = undefined;
         this.title = undefined;
         this.fname = undefined;
         this.mname = undefined;
