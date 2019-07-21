@@ -123,4 +123,8 @@ export class Prescription extends BaseModel<Prescription> {
         const dateArray = this.filledDate.split('-');
         return `${dateArray[1]}/${dateArray[2]}/${dateArray[0]}`;
     }
+
+    get displayAdherence(): number {
+        return this.adherence > 100 ? 100 : this.adherence;
+    }
 }

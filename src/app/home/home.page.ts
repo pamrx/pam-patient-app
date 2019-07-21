@@ -25,7 +25,7 @@ export class HomePage extends UnsubscribeComponent implements OnInit {
 
   ngOnInit(): void {
     this.storageService.get('user').then((user) => {
-      this.patient = JSON.parse(user) as Patient;
+      this.patient = new Patient(JSON.parse(user));
       this.prescriptions$ = this.prescriptionService.getPrescriptions(this.patient.pid);
     });
   }

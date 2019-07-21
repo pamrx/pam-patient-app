@@ -6,14 +6,14 @@
       Doesn't look like you have any prescriptions. Do you need to <a routerLink="/add-prescription" routerDirection="forward">add one</a>?
     </ion-card-content>
   </ion-card>
-  <ion-toolbar *ngIf="patient && patient?.adherence" class="adherence-toolbar" [color]="patient.adherence >= 85 ? 'success' : 'danger'">
-    <div *ngIf="patient.adherence >= 85; else havingTrouble">
+  <ion-toolbar *ngIf="patient && patient?.adherence" class="adherence-toolbar" [color]="patient.displayAdherence >= 85 ? 'success' : 'danger'">
+    <div *ngIf="patient.displayAdherence >= 85; else havingTrouble">
       <ion-icon name="star"></ion-icon>
-      Great Job! <br> You've remembered to take your medications {{ patient.adherence }}% of the time.
+      Great Job! <br> You've remembered to take your medications {{ patient.displayAdherence }}% of the time.
     </div>
     <ng-template #havingTrouble>
       <div>
-          Having trouble? Try turning on reminders. <br> You've remembered to take your medications {{ patient.adherence }}% of the time.
+          Having trouble? Try turning on reminders. <br> You've remembered to take your medications {{ patient.displayAdherence }}% of the time.
       </div>
     </ng-template>
   </ion-toolbar>
@@ -29,7 +29,7 @@
     <ion-card-content class="prescription-content">
       <ion-item color="light">Dosage: {{ prescription.dosage }} Units: {{ prescription.unitsDisplay }}</ion-item>
       <ion-item color="light">Interval: {{ prescription.intervalDisplay }}</ion-item>
-      <ion-item color="light">{{ prescription.adherence }} % Adherence</ion-item>
+      <ion-item color="light">{{ prescription.displayAdherence }} % Adherence</ion-item>
       <ion-item color="light" lines="none" *ngIf="prescription.displayCheckbox">
         <ion-label>{{ prescription.textQuestion }}</ion-label>
         <ion-checkbox slot="start" color="success" [(ngModel)]="prescription.checked" (ionChange)="recordAdherence(prescription)"></ion-checkbox>

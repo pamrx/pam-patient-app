@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, from } from 'rxjs';
+import { Observable, of, from, BehaviorSubject } from 'rxjs';
 import { Prescription } from 'src/app/auth/models/prescription.model';
 import { Patient } from 'src/app/auth/models/patient.model';
 import { environment } from 'src/environments/environment';
@@ -13,19 +13,27 @@ import { deserialize, serialize } from 'json-typescript-mapper';
 })
 export class PrescriptionService {
 
+  private prescriptions$: BehaviorSubject<Prescription[]> = new BehaviorSubject<Prescription[]>([]);
+
   constructor(
     private http: HttpClient) { }
 
   public getPrescriptions(patientId): Observable<Prescription[]> {
+    this.loadPrescriptions(patientId).subscribe((scripts) => {
+      this.prescriptions$.next(scripts);
+    });
+    return this.prescriptions$;
+  }
+
+  private loadPrescriptions(patientId): Observable<Prescription[]> {
     return this.http.get<any[]>(`${environment.baseUrl}/patients/${patientId}/prescriptions`)
-      .pipe(map((rawPrescriptions) => {
-        const prescriptions: Prescription[] = [];
-        rawPrescriptions.forEach((rawPrescription) => {
-          prescriptions.push(deserialize(Prescription, rawPrescription));
-        });
-        console.log(prescriptions);
-        return prescriptions;
-      }));
+    .pipe(map((rawPrescriptions) => {
+      const prescriptions: Prescription[] = [];
+      rawPrescriptions.forEach((rawPrescription) => {
+        prescriptions.push(deserialize(Prescription, rawPrescription));
+      });
+      return prescriptions;
+    }));
   }
 
   public recordAdherence(notificationId: string, response: number): Observable<void> {

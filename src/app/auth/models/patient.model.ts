@@ -50,4 +50,11 @@ export class Patient extends BaseModel<Patient> {
         this.adherence = undefined;
         this.build(properties);
     }
+
+    get displayAdherence(): number {
+        if (!this.adherence) {
+            return null;
+        }
+        return this.adherence > 100 ? 100 : this.adherence;
+    }
 }
