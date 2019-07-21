@@ -8,7 +8,7 @@
   </ion-card>
   <ion-card *ngFor="let prescription of (prescriptions$ | async)" color="light">
     <ion-card-header>
-      <ion-card-subtitle><span *ngIf="prescription.filledDate">Last Filled: {{ prescription.filledDate }}</span>Start Date: {{ prescription.startDateDisplay }}</ion-card-subtitle>
+      <ion-card-subtitle><span *ngIf="prescription.filledDate">Last Filled: {{ prescription.filledDate }}</span>  Start Date: {{ prescription.startDateDisplay }}</ion-card-subtitle>
       <ion-card-title>{{ prescription.drug }}</ion-card-title>
     </ion-card-header>
 
