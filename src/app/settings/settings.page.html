@@ -1,5 +1,39 @@
 <app-header title="Settings"></app-header>
 
 <ion-content>
-
+    <ion-list>
+        <ion-item>
+            <ion-label>Enable Notifications</ion-label>
+            <ion-checkbox checked="notificationsEnabled" onclick="toggleNotifications()"></ion-checkbox>
+            <ion-list *ngIf="notificationsEnabled">
+                <ion-item>
+                    <ion-label>Push Notifications</ion-label>
+                    <ion-checkbox checked="true"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Email</ion-label>
+                    <ion-checkbox checked="false"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Text</ion-label>
+                    <ion-checkbox checked="false"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Phone Call</ion-label>
+                    <ion-checkbox checked="false"></ion-checkbox>
+                </ion-item>
+            </ion-list>
+        </ion-item>
+        <ion-item>
+            <ion-label>Notification Time Window</ion-label>
+            <ion-item>
+                <ion-label>From</ion-label>
+                <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label>To</ion-label>
+                <ion-datetime displayFormat="hh:mm A" minuteValues="0,15,30,45"></ion-datetime>
+            </ion-item>
+        </ion-item>
+    </ion-list>
 </ion-content>
