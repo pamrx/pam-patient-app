@@ -5,7 +5,8 @@ import { Prescription } from 'src/app/auth/models/prescription.model';
 import { Patient } from 'src/app/auth/models/patient.model';
 import { environment } from 'src/environments/environment';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { mergeMap, shareReplay, share } from 'rxjs/operators';
+import { mergeMap, shareReplay, share, map } from 'rxjs/operators';
+import { deserialize, serialize } from 'json-typescript-mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +14,29 @@ import { mergeMap, shareReplay, share } from 'rxjs/operators';
 export class PrescriptionService {
 
   constructor(
-    private http: HttpClient,
-    private storageService: StorageService) { }
+    private http: HttpClient) { }
 
-  public getPrescriptions(): Observable<Prescription[]> {
-    return from(this.storageService.get('user'))
-      .pipe(mergeMap((rawUser) => {
-        if (rawUser) {
-          const user = JSON.parse(rawUser) as Patient;
-          return of(user.prescriptions);
-        } else {
-          return of([]);
-        }
-      }), share());
+  public getPrescriptions(patientId): Observable<Prescription[]> {
+    return this.http.get<any[]>(`${environment.baseUrl}/patients/${patientId}/prescriptions`)
+      .pipe(map((rawPrescriptions) => {
+        const prescriptions: Prescription[] = [];
+        rawPrescriptions.forEach((rawPrescription) => {
+          prescriptions.push(deserialize(Prescription, rawPrescription));
+        });
+        console.log(prescriptions);
+        return prescriptions;
+      }));
   }
 
-  public recordAdherence(patientId: string, medicationId: string, taken: boolean): Observable<void> {
-    return this.http.post<void>(encodeURI(`${environment.baseUrl}/notify/${patientId}/${medicationId}/yes`), {});
+  public recordAdherence(notificationId: string, response: number): Observable<void> {
+    return this.http.post<void>(encodeURI(`${environment.baseUrl}/notify/${notificationId}`), response);
+  }
+
+  public recordAdherenceOnDemand(patientId: string, prescriptionId: string, response: number): Observable<void> {
+    return this.http.post<void>(encodeURI(`${environment.baseUrl}/patients/${patientId}/${prescriptionId}`), response);
+  }
+
+  public createPrescription(patientId: string, prescription: Prescription): Observable<void> {
+    return this.http.post<void>(`${environment.baseUrl}/patients/${patientId}/prescriptions`, serialize(prescription));
   }
 }

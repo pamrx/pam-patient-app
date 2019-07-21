@@ -1,5 +1,5 @@
 <ion-button [disabled]="disable || showSpinner" type="submit" [expand]="expand"
-  (click)="click.emit()">
+  (click)="action.emit()">
   <ng-container *ngIf="!showSpinner; else spinner">
     {{ text }}
   </ng-container>

@@ -13,7 +13,7 @@
         <ion-label position="floating">Password</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
-      <app-button-spinner (click)="login()" [showSpinner]="showSpinner" [disable]="!loginForm.valid" text="Login" expand="block">
+      <app-button-spinner (action)="login()" [showSpinner]="showSpinner" [disable]="!loginForm.valid" text="Login" expand="block">
       </app-button-spinner>
       <div class="error">{{ error }}</div>
     </form>

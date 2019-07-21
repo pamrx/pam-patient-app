@@ -2,32 +2,73 @@
 
 <ion-content>
   <ion-card color="light">
-    <form [formGroup]="prescription" (ngSubmit)="submit()">
+    <form [formGroup]="prescriptionForm" (ngSubmit)="submit()">
       <ion-item color="light">
         <ion-label position="floating">Medication</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
+        <ion-input type="text" formControlName="searchTerm"></ion-input>
       </ion-item>
-      <ion-list *ngIf="prescription.value.name" color="light">
-        <ion-radio-group formControlName="medicationId">
+      <ion-list *ngIf="prescriptionForm.value.searchTerm && showList" color="light">
+        <ion-radio-group formControlName="drug">
           <ion-item *ngFor="let medication of (medications$ | async)">
             <ion-label>{{ medication.title }}</ion-label>
-            <ion-radio slot="start" [value]="medication.id"></ion-radio>
+            <ion-radio slot="start" [value]="medication.title"></ion-radio>
           </ion-item>
         </ion-radio-group>
       </ion-list>
       <ion-item color="light">
-        <ion-label position="floating">Dosage</ion-label>
-        <ion-input type="text" formControlName="dosage"></ion-input>
-      </ion-item>
-      <ion-item color="light">
-        <ion-label position="floating">Frequency</ion-label>
-        <ion-input type="text" formControlName="frequency"></ion-input>
-      </ion-item>
-      <ion-item color="light">
         <ion-label position="floating">Begin Date</ion-label>
-        <ion-input type="date" formControlName="notes"></ion-input>
+        <ion-datetime displayFormat="MM/DD/YYYY" min="1900-01-01" formControlName="begdate"></ion-datetime>
       </ion-item>
-      <ion-button type="submit" expand="block" [disabled]="!prescription.valid">Submit</ion-button>
+      <ion-item color="light">
+        <ion-label position="floating">Form</ion-label>
+        <ion-select formControlName="form" okText="Select" cancelText="Cancel">
+          <ion-select-option value="2">Tablet</ion-select-option>
+          <ion-select-option value="12">Puff</ion-select-option>
+          <ion-select-option value="10">Cream</ion-select-option>
+          <ion-select-option value="7">Units</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Dosage</ion-label>
+        <ion-input type="number" formControlName="dosage"></ion-input>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Size</ion-label>
+        <ion-input type="number" formControlName="size"></ion-input>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Unit</ion-label>
+        <ion-select formControlName="unit" okText="Select" cancelText="Cancel">
+            <ion-select-option value="1">Milligrams (mg)</ion-select-option>
+            <ion-select-option value="7">Micrograms (&mu;g)</ion-select-option>
+            <ion-select-option value="8">Grams (g)</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Route</ion-label>
+        <ion-select formControlName="route" okText="Select" cancelText="Cancel">
+            <ion-select-option value="1">Oral</ion-select-option>
+            <ion-select-option value="4">To Affected Area</ion-select-option>
+            <ion-select-option value="9">Sub Q (injection)</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Interval</ion-label>
+        <ion-select formControlName="interval" okText="Select" cancelText="Cancel">
+            <ion-select-option value="9">Daily</ion-select-option>
+            <ion-select-option value="1">Twice Daily</ion-select-option>
+            <ion-select-option value="17">As Needed</ion-select-option>
+          </ion-select>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Refills</ion-label>
+        <ion-input type="number" formControlName="refills"></ion-input>
+      </ion-item>
+      <ion-item color="light">
+        <ion-label position="floating">Per Refill</ion-label>
+        <ion-input type="number" formControlName="perRefill"></ion-input>
+      </ion-item>
+      <ion-button type="submit" expand="block" [disabled]="!prescriptionForm.valid">Submit</ion-button>
     </form>
   </ion-card>
 

@@ -8,13 +8,13 @@
   </ion-card>
   <ion-card *ngFor="let prescription of (prescriptions$ | async)" color="light">
     <ion-card-header>
-      <ion-card-subtitle>{{ prescription.begdate | date:'shortDate' }}</ion-card-subtitle>
-      <ion-card-title>{{ prescription.medicationId }}</ion-card-title>
+      <ion-card-subtitle>{{ prescription.startDateDisplay }}</ion-card-subtitle>
+      <ion-card-title>{{ prescription.drug }}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content class="prescription-content">
       <ion-item color="light">Dosage: {{ prescription.dosage }}</ion-item>
-      <ion-item color="light">Frequency: every {{ prescription.frequency }} {{ prescription.frequencyUnit }}</ion-item>
+      <ion-item color="light">Interval: {{ prescription.intervalDisplay }}</ion-item>
       <ion-item color="light">{{ prescription.adherence | percent }}</ion-item>
       <ion-item color="light" lines="none">
         <ion-label> Have you taken this today?</ion-label>

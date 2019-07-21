@@ -24,14 +24,14 @@ export class HomePage extends UnsubscribeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prescriptions$ = this.prescriptionService.getPrescriptions();
     this.storageService.get('user').then((user) => {
       this.patientId = (JSON.parse(user) as Patient).pid;
+      this.prescriptions$ = this.prescriptionService.getPrescriptions(this.patientId);
     });
   }
 
   public recordAdherence(prescription: Prescription): void {
-    this.prescriptionService.recordAdherence(this.patientId, prescription.medicationId, prescription.checked)
+    this.prescriptionService.recordAdherenceOnDemand(this.patientId, prescription.id, prescription.checked ? 0 : 1)
       .pipe(takeUntil(this.unsubscriber))
       .subscribe(() => console.log('updated'));
   }

@@ -20,7 +20,7 @@ export class ButtonSpinnerComponent {
   expand = 'block';
 
   @Output()
-  click: EventEmitter<any> = new EventEmitter();
+  action: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 

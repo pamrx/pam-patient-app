@@ -128,21 +128,21 @@ export class PushService {
         {
           text: 'Yes',
           handler: () => {
-            this.recordAdherence(true);
+            this.recordAdherence(0, data.additionalData.notificationId);
             console.log('Yes clicked');
           }
         },
         {
           text: 'Ignore',
           handler: () => {
-            this.recordAdherence(false);
+            this.recordAdherence(1, data.additionalData.notificationId);
             console.log('No clicked');
           }
         },
         {
           text: 'Ask Me Later',
           handler: () => {
-            this.recordAdherence(false);
+            this.recordAdherence(2, data.additionalData.notificationId);
             console.log('Remind clicked');
           }
         }
@@ -151,16 +151,9 @@ export class PushService {
     this.alertController.create(alertOptions).then((alert) => alert.present());
   }
 
-  private recordAdherence(taken: boolean): void {
-    this.storageService.get('user').then((rawUser) => {
-      if (rawUser) {
-        const user = JSON.parse(rawUser) as Patient;
-        this.prescriptionService.recordAdherence(user.pid, 'medicationId', taken).subscribe(() => {
-          console.log('success');
-        });
-      } else {
-        console.log('unable to determine user to record adherence');
-      }
+  private recordAdherence(response: number, notificationId: string): void {
+    this.prescriptionService.recordAdherence(notificationId, response).subscribe(() => {
+      console.log('success');
     });
   }
 
