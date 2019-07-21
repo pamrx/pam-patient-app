@@ -17,5 +17,4 @@ export class SettingsPage implements OnInit {
   toggleNotifications() {
     this.notificationsEnabled = !this.notificationsEnabled
   }
-
 }

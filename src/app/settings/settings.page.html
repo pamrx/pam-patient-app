@@ -4,7 +4,7 @@
     <ion-list>
         <ion-item>
             <ion-label>Enable Notifications</ion-label>
-            <ion-checkbox checked="notificationsEnabled" onclick="toggleNotifications()"></ion-checkbox>
+            <ion-checkbox checked="notificationsEnabled" (click)="toggleNotifications()"></ion-checkbox>
         </ion-item>
         <ion-item *ngIf="notificationsEnabled">
             <ion-list>
